@@ -1,8 +1,15 @@
 const path = require("path");
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    entry: path.join(__dirname, "js", "app.js"),
+    entry: "./src/app.js",
+    plugins: [
+        new HtmlWebpackPlugin({
+            template:"./src/template.html"
+        }),
+        new webpack.HotModuleReplacementPlugin()
+    ],
     module: {
         rules: [
           {
@@ -12,23 +19,13 @@ module.exports = {
               loader: "babel-loader"
             }
           }
-        ]
+        ,{
+        test: /\.css$/,
+        use:['style-loader','css-loader']
+        }]
     },
     resolve: {
         extensions: ['*', '.js', '.jsx']
-    },
-
-    output: {
-        path: path.join(__dirname, "public"),
-        filename: "bundle.js",
-        publicPath: "/"
-    }, 
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ],
-    devServer: {
-        hot: true,
-        historyApiFallback: true
     }
 };
   
